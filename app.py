@@ -1,50 +1,28 @@
-from flask import Flask, render_template, redirect, flash
-from flask import request
+from flask import Flask
+from flask_login.login_manager import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 
+db = SQLAlchemy()
+# Authentication manager and System setup
+login_manager = LoginManager()
+login_manager.login_view = 'users.login'
+
 app = Flask(__name__)
 app.config.from_object('config')
-db = SQLAlchemy(app)
+
+db.init_app(app)
+login_manager.init_app(app)
 
 
-@app.route('/', methods=['GET'])
-def home():
-    return render_template('pages/home.html')
+@login_manager.user_loader
+def load_user(user_id):
+    from models import User
+    return User.query.get(int(user_id))
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    from forms import RegisterUserForm
+if __name__ == '__main__':
+    from views.users import users
 
-    form = RegisterUserForm(request.form)
-    if request.method == 'POST' and form.validate():
-        user = form.save(form.data)
-        flash(f'User {user.username} Registered successfully!')
-        return redirect('/')
-    return render_template('forms/register.html', form=form)
-
-
-@app.route('/activate', methods=['GET', 'POST'])
-def activate():
-    from forms import ActivateUserForm
-
-    form = ActivateUserForm(request.form)
-    if request.method == 'POST' and form.validate():
-        user = form.save(form.data)
-        flash(f'User {user.username} created successfully! Please login!')
-        return redirect('/')
-    return render_template('forms/activate.html', form=form)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    # todo if request.user, return HOME
-    if request.method == 'GET':
-        return 'Login Form'
-    # todo handle login
-    return 'Login'
-
-
-if __name__ == "__main__":
+    app.register_blueprint(users)
     app.run(debug=True)

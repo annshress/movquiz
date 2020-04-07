@@ -1,12 +1,25 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-  <form method="post">
-    <h3>Login <a href="{{ url_for('home') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
-    {{ form.name(class_ = 'form-control first-input', placeholder = form.name.label.text, required = true, autofocus = true) }}
-    {{ form.password(class_ = 'form-control last-input', placeholder = form.password.label.text, required = true) }}
-    <p class="pull-right"><a href="{{ url_for('register') }}">Register</a></p>
-    <input type="submit" value="Submit" class="btn btn-primary btn-lg btn-block" disabled>
-    <p>You must add database as well as Flask-Login to enable user management. See the <a href="http://www.realpython.com">Real Python</a> course for more info!</p>
-  </form>
+    <h3>Login <a href="{{ url_for('users.home') }}" title="Back to homepage">Go Back</a></h3>
+    <form method="post">
+        {{ form.csrf_token }}
+        <p>
+            {{ form.username.label }} {{ form.username }}<br>
+            {% if form.username.errors %}<span class="danger">{{ form.username.errors }}</span>{% endif %}
+        </p>
+        <p>
+            {{ form.password.label }} {{ form.password }}<br>
+            {% if form.password.errors %}<span class="danger">{{ form.password.errors }}</span>{% endif %}
+        </p>
+        <input type="submit" value="Login"/>
+    </form>
+    <p>
+        <a href="{{ url_for('users.register') }}">Register</a>
+        <p>
+            Already have a code?
+            <a href="{{ url_for('users.activate') }}">Activate</a>
+        </p>
+    </p>
+
 {% endblock %}

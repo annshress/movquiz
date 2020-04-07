@@ -1,7 +1,7 @@
 from wtforms import StringField, validators
 from wtforms_alchemy import ModelForm, Form
 
-from models import User
+from models.users import User
 
 
 class RegisterUserForm(ModelForm):
@@ -42,6 +42,15 @@ class LoginUserForm(ModelForm):
     class Meta:
         model = User
         only = ['username', 'password']
+        unique_validator = None
 
-# RegisterUserForm = model_form(User, only=['username'])
-# LoginUserForm = model_form(User, only=['username', 'password'])
+    def validate(self):
+        success = super().validate()
+        if not success:
+            return False
+        if not User.check_password(username=self.data['username'],
+                                   password=self.data['password']):
+            self.password.errors.append('Password does not match.')
+            return False
+        return True
+

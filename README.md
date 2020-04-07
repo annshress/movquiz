@@ -23,6 +23,7 @@ and be generated dynamically.
 3. A background process in your application should be executable to scrape movie data
 from IMDB and populate the database. Flask should read the database and randomly
 provide the view with a sample of questions for the quiz
+
 Requirement:
 1. A document should present your approach and the reasoning behind the approach. It
 should also explain any current shortcomings of the current approach and how can it be
