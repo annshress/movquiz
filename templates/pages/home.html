@@ -1,0 +1,17 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<div>
+  <h2>Home</h2>
+    <ul>
+      <li>
+        <a href="{{ url_for('activate') }}">Activate</a>
+      </li>
+      <li>
+        <a href="{{ url_for('register') }}">Register</a>
+      </li>
+    </ul>
+</div>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+# local files
+database.db
+codes.json
+
+# cache
+__pycache__/
+
+# pycharm idea
+.idea*
