@@ -73,3 +73,9 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+    def __init__(self, **kwargs):
+        self.username = kwargs['username']
+
+
+# db.create_all()
