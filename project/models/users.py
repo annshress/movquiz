@@ -2,9 +2,8 @@ import json
 
 from flask_login import UserMixin
 
-from app import db, login_manager
-from instance import FILENAME
-from utils import get_codes
+from project import db
+from project.utils import get_codes, FILENAME
 
 
 class User(db.Model, UserMixin):
@@ -21,11 +20,9 @@ class User(db.Model, UserMixin):
     def get_by_username(cls, username):
         return User.query.filter_by(username=username).first()
 
-    @classmethod
-    def check_password(cls, username, password):
-        user = User.get_by_username(username)
-        if user.password == user.encrypt_password(password):
-            return user
+    def check_password(self, password):
+        if self.password == self.encrypt_password(password):
+            return True
 
     def generate_code(self):
         # dummy code generation
@@ -76,6 +73,3 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return '<User %r>' % self.username
-
-
-# db.create_all()

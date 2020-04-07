@@ -1,7 +1,7 @@
 import os
 import json
 
-from instance import FILENAME
+FILENAME = 'codes.json'
 
 
 def get_codes():

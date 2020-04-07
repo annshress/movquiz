@@ -1,7 +1,7 @@
 from wtforms import StringField, validators
 from wtforms_alchemy import ModelForm, Form
 
-from models.users import User
+from project.models.users import User
 
 
 class RegisterUserForm(ModelForm):
@@ -48,9 +48,13 @@ class LoginUserForm(ModelForm):
         success = super().validate()
         if not success:
             return False
-        if not User.check_password(username=self.data['username'],
-                                   password=self.data['password']):
-            self.password.errors.append('Password does not match.')
+        user = User.get_by_username(self.data['username'])
+        if not user:
+            self.username.errors.append('Username or Password does not match.')
+            self.password.errors.append('Username or Password does not match')
+            return False
+        elif not user.check_password(password=self.data['password']):
+            self.username.errors.append('Username or Password does not match.')
+            self.password.errors.append('Username or Password does not match')
             return False
         return True
-

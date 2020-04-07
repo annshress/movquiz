@@ -3,9 +3,9 @@ from flask import request
 from flask.helpers import url_for
 from flask_login import login_user, login_required, logout_user
 
-from forms import LoginUserForm, RegisterUserForm, ActivateUserForm
-from models.users import User
-from views.utils import logout_required
+from project.forms import LoginUserForm, RegisterUserForm, ActivateUserForm
+from project.models.users import User
+from project.views.utils import logout_required
 
 users = Blueprint('users', __name__)
 
