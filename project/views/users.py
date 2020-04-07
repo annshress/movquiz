@@ -1,5 +1,6 @@
 from flask import render_template, redirect, flash, Blueprint
 from flask import request
+from flask.helpers import url_for
 from flask_login import login_user, login_required, logout_user
 
 from forms import LoginUserForm, RegisterUserForm, ActivateUserForm
@@ -37,7 +38,7 @@ def activate():
             return redirect('/activate')
         else:
             flash(f'User {user.username} created successfully! Please login!')
-        return redirect('/')
+        return redirect(url_for('users.login'))
     return render_template('forms/activate.html', form=form)
 
 

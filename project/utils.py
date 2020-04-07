@@ -1,7 +1,7 @@
 import os
 import json
 
-from config import FILENAME
+from instance import FILENAME
 
 
 def get_codes():

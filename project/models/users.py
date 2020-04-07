@@ -3,7 +3,7 @@ import json
 from flask_login import UserMixin
 
 from app import db, login_manager
-from config import FILENAME
+from instance import FILENAME
 from utils import get_codes
 
 
@@ -76,11 +76,6 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return '<User %r>' % self.username
-
-    def __init__(self, **kwargs):
-        self.username = kwargs['username']
-        if 'password' in kwargs:
-            self.password = self.encrypt_password(kwargs['password'])
 
 
 # db.create_all()
