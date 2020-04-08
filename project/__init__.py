@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_login.login_manager import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 # DETACHED EXTENSIONS
 db = SQLAlchemy()
@@ -21,6 +22,7 @@ def create_app(config_file=None):
 def initialize_extensions(app):
     # bind extensions to the flask app
     db.init_app(app)
+    Migrate(app, db)
     login_manager.init_app(app)
 
     # to fetch logged in user based on session user id
