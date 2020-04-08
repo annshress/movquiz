@@ -12,3 +12,8 @@ def get_codes():
     with open(FILENAME) as f:
         data = json.load(f)
     return data
+
+
+def delete_code_file():
+    """called from tests"""
+    os.remove(FILENAME)

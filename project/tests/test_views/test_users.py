@@ -1,4 +1,3 @@
-import os
 import unittest
 
 from project.tests.test_views import TestViewsMixin

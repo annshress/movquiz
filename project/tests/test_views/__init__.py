@@ -1,8 +1,9 @@
 from project import create_app, db
 from project.models import User
+from project.tests import BaseTestMixin
 
 
-class TestViewsMixin(object):
+class TestViewsMixin(BaseTestMixin):
     def setUp(self):
         app = create_app('flask_test.cfg')
         # testing client
@@ -14,6 +15,7 @@ class TestViewsMixin(object):
         self.assertEqual(app.debug, False)
 
     def tearDown(self):
+        super().tearDown()
         db.drop_all()
 
     ########################
