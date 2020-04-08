@@ -1,9 +1,11 @@
 from flask import render_template, redirect, flash, Blueprint
 from flask import request
+from flask.globals import current_app
 from flask.helpers import url_for
 from flask_login import login_user, login_required, logout_user
 
 from project.forms import LoginUserForm, RegisterUserForm, ActivateUserForm
+from project.models import Score
 from project.models.users import User
 from project.views.utils import logout_required
 
@@ -13,7 +15,20 @@ users = Blueprint('users', __name__)
 @users.route('/', methods=['GET'])
 @login_required
 def home():
-    return render_template('pages/home.html')
+    page = request.args.get('page', 1, type=int)
+    paginated_scores = Score.query.order_by(Score.score.desc()).paginate(
+        page, current_app.config['PAGE_SIZE'], False
+    )
+    next_url = url_for('users.home', page=paginated_scores.next_num) \
+        if paginated_scores.has_next else None
+    prev_url = url_for('users.home', page=paginated_scores.prev_num) \
+        if paginated_scores.has_prev else None
+    context = dict(
+        scores=paginated_scores.items,
+        prev_url=prev_url,
+        next_url=next_url,
+    )
+    return render_template('pages/home.html', **context)
 
 
 @users.route('/register', methods=['GET', 'POST'])

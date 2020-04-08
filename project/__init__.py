@@ -36,5 +36,7 @@ def initialize_extensions(app):
 def register_blueprints(app):
     # register flask blueprints
     from project.views.users import users
+    from project.views.quiz import quiz
 
     app.register_blueprint(users)
+    app.register_blueprint(quiz)

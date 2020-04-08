@@ -1,0 +1,45 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Movie Quiz{% endblock %}
+{% block content %}
+
+<div>
+    <h2>Movie Quiz</h2>
+    <p>
+        <a href="{{ url_for('users.home') }}">Go Back</a>
+    </p>
+
+    <p>
+        {% if show_answer %}
+        <h4>You scored {{ score }}. Congrats!</h4>
+        <form>
+        {% else %}
+        <form method="POST">
+        {% endif %}
+            {% for question in questions %}
+                {% set value = form.get(key_name+question.id|string, "") %}
+                <p>
+                    {{ question.question }}<br>
+                    Answer: <input name="{{ key_name }}{{ question.id }}"
+                                   id="{{ key_name }}{{ question.id }}"
+                                   value="{{ value }}"
+                                   placeholder="Answer" />
+                    {% if show_answer %}
+                        {% if question.answer == value %}
+                            <span class="success"> Correct
+                        {% else %}
+                            <span class="error"> {{ question.answer }}
+                        {% endif %}
+                        </span>
+                    {% endif %}
+                </p>
+            {% endfor %}
+            {% if show_answer %}
+                <button type="submit" disabled>Submit</button>
+            {% else %}
+                <button type="submit">Submit</button>
+            {% endif %}
+        </form>
+    </p>
+</div>
+
+{% endblock %}
