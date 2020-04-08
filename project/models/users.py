@@ -76,6 +76,7 @@ class User(db.Model, UserMixin):
 
     def __init__(self, **kwargs):
         self.username = kwargs['username']
-
+        if 'password' in kwargs:
+            self.password = self.encrypt_password(kwargs['password'])
 
 # db.create_all()
