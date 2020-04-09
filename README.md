@@ -1,28 +1,25 @@
-### task
+Requires:
+-
+- Python3.6+
 
-...However you want only your
-friends to be able to sign up so you have created a system for user verification.
-1. Build a flask application which accepts a username during registration. Upon registration,
-a code is written to a file in the backend. You must provide the user who is trying to
-register the code so that he/she can activate the username. Upon registration
-completed, the user can use the username and a password to login
+### Setting up
+1. Clone this repo
+2. Change the current directory into the repo
+3. Setup a virtualenv of your choice, or don't if you like to live dangerously
+4. Run `pip install -r requirements.txt`
+5. Run `flask db upgrade` which will setup up a database in *instance path* and run available migrations
+6. Setup questions for quiz by running `python scrape_questions.py`
+7. Run flask app
+    1. `python app.py`
+    2. In your browser, navigate to **localhost:5000**
 
-Stack:
-- Database = SQLite
-- API = Python/Flask
-- Front End = Any
-
-2. Upon logging in successfully, the following are shown
-a. The “Take the movie quiz” button. This let’s you take the movie quiz
-b. A paginated table shown high scores of your friends
-Upon taking the quiz the user’s name and score should appear on the table in
-descending order of the score. All other user’s scores should also be seen. The table
-should be paginated
-The quiz should always have 10 questions. But the questions should appear randomly
-and be generated dynamically.
-3. A background process in your application should be executable to scrape movie data
-from IMDB and populate the database. Flask should read the database and randomly
-provide the view with a sample of questions for the quiz
+### In the browser
+1. Register with a username
+2. A code is generate in *codes.json* in project directory
+3. Copy the code for given username
+4. In the browser, click on `Activate`
+5. Paste the copied code, and choose a new password
+6. Login with your username and the new password
 
 Requirement:
 1. A document should present your approach and the reasoning behind the approach. It

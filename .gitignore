@@ -8,6 +8,8 @@ scrape_complete.lock
 # cache
 __pycache__/
 .pytest_cache
+# just to be safe
+.pyc
 
 # pycharm idea
 .idea*
