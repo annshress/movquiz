@@ -24,12 +24,13 @@ class User(db.Model, UserMixin):
         if self.password == self.encrypt_password(password):
             return True
 
-    def generate_code(self):
+    @classmethod
+    def generate_code(cls, username):
         # dummy code generation
-        return 'code' + self.username
+        return 'code' + username
 
     def generate_key(self):
-        new_code = {self.generate_code(): self.username}
+        new_code = {self.generate_code(self.username): self.username}
         data = get_codes()
         data.update(new_code)
 

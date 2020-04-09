@@ -17,7 +17,7 @@ users = Blueprint('users', __name__)
 def home():
     page = request.args.get('page', 1, type=int)
     paginated_scores = Score.query.order_by(Score.score.desc()).paginate(
-        page, current_app.config['PAGE_SIZE'], False
+        page, current_app.config.get('PAGE_SIZE', 5), False
     )
     next_url = url_for('users.home', page=paginated_scores.next_num) \
         if paginated_scores.has_next else None

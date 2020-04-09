@@ -36,6 +36,15 @@ class TestViewsMixin(BaseTestMixin):
             follow_redirects=True
         )
 
+    def activate(self, code, password, re_password):
+        return self.client.post(
+            '/activate',
+            data=dict(code=code,
+                      password=password,
+                      re_password=re_password),
+            follow_redirects=True
+        )
+
     def login(self, username, password):
         return self.client.post(
             '/login',
@@ -48,3 +57,6 @@ class TestViewsMixin(BaseTestMixin):
             '/logout',
             follow_redirects=True
         )
+
+    def force_login(self, user):
+        """sets the flask.current_user to provided user"""

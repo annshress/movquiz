@@ -16,4 +16,5 @@ def get_codes():
 
 def delete_code_file():
     """called from tests"""
-    os.remove(FILENAME)
+    if os.path.exists(FILENAME):
+        os.remove(FILENAME)
