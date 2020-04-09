@@ -1,7 +1,9 @@
 # local files
 database.db
 test.db
+
 codes.json
+scrape_complete.lock
 
 # cache
 __pycache__/
