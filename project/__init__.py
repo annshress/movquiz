@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_bcrypt import Bcrypt
 from flask_login.login_manager import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -8,6 +9,8 @@ db = SQLAlchemy()
 # Authentication manager and System setup
 login_manager = LoginManager()
 login_manager.login_view = 'users.login'
+# password encryption
+bcrypt = Bcrypt()
 
 
 def create_app(config_file=None):
@@ -24,6 +27,7 @@ def initialize_extensions(app):
     db.init_app(app)
     Migrate(app, db)
     login_manager.init_app(app)
+    bcrypt.init_app(app)
 
     # to fetch logged in user based on session user id
     from project.models import User

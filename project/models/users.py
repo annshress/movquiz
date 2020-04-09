@@ -2,7 +2,7 @@ import json
 
 from flask_login import UserMixin
 
-from project import db
+from project import db, bcrypt
 from project.utils import get_codes, FILENAME
 
 
@@ -12,17 +12,18 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(30))
 
     @staticmethod
-    def encrypt_password(password):
+    def _hash_password(password):
         # dummy encryption
-        return password+'encrypted'
+        return bcrypt.generate_password_hash(password)
 
     @classmethod
     def get_by_username(cls, username):
         return User.query.filter_by(username=username).first()
 
     def check_password(self, password):
-        if self.password == self.encrypt_password(password):
-            return True
+        if self.password:
+            return bcrypt.check_password_hash(self.password, password)
+        return False
 
     @classmethod
     def generate_code(cls, username):
@@ -53,7 +54,7 @@ class User(db.Model, UserMixin):
             return
 
         user = User.query.filter_by(username=username).first()
-        user.password = cls.encrypt_password(password)
+        user.password = cls._hash_password(password)
         db.session.add(user)
         db.session.commit()
 
@@ -77,7 +78,3 @@ class User(db.Model, UserMixin):
 
     def __init__(self, **kwargs):
         self.username = kwargs['username']
-        if 'password' in kwargs:
-            self.password = self.encrypt_password(kwargs['password'])
-
-# db.create_all()
