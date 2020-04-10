@@ -3,7 +3,7 @@ import json
 from flask_login import UserMixin
 
 from project import db, bcrypt
-from project.utils import get_codes, FILENAME
+from project.utils import get_activation_codes, ACTIVATION_CODE_FILENAME
 
 
 class User(db.Model, UserMixin):
@@ -32,10 +32,10 @@ class User(db.Model, UserMixin):
 
     def generate_key(self):
         new_code = {self.generate_code(self.username): self.username}
-        data = get_codes()
+        data = get_activation_codes()
         data.update(new_code)
 
-        with open(FILENAME, 'w') as f:
+        with open(ACTIVATION_CODE_FILENAME, 'w') as f:
             json.dump(data, f)
 
     @classmethod
@@ -48,7 +48,7 @@ class User(db.Model, UserMixin):
 
     @classmethod
     def activate(cls, code, password):
-        data = get_codes()
+        data = get_activation_codes()
         username = data.get(code, None)
         if not username:
             return
@@ -60,7 +60,7 @@ class User(db.Model, UserMixin):
 
         # remove the activated code
         data.pop(code)
-        with open(FILENAME, 'w') as f:
+        with open(ACTIVATION_CODE_FILENAME, 'w') as f:
             json.dump(data, f)
         # end remove
         return user

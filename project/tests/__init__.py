@@ -3,7 +3,7 @@ import random
 from project import create_app, db
 from project.models import User, Score
 from project.tests.factory import QuestionFactory
-from project.utils import delete_code_file
+from project.utils import delete_activation_code_file
 
 
 class BaseTestMixin:
@@ -21,7 +21,7 @@ class BaseTestMixin:
 
     def tearDown(self):
         # remove the codes file created during tests
-        delete_code_file()
+        delete_activation_code_file()
 
     ########################
     #    helper methods    #
