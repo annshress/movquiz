@@ -1,3 +1,5 @@
+from flask import url_for
+
 from project.tests import BaseTestMixin
 
 
@@ -9,14 +11,14 @@ class TestViewsMixin(BaseTestMixin):
 
     def register(self, username):
         return self.client.post(
-            '/register',
+            url_for('users.register'),
             data=dict(username=username),
             follow_redirects=True
         )
 
     def activate(self, code, password, re_password):
         return self.client.post(
-            '/activate',
+            url_for('users.activate'),
             data=dict(code=code,
                       password=password,
                       re_password=re_password),
@@ -25,14 +27,14 @@ class TestViewsMixin(BaseTestMixin):
 
     def login(self, username, password):
         return self.client.post(
-            '/login',
+            url_for('users.login'),
             data=dict(username=username, password=password),
             follow_redirects=True
         )
 
     def logout_user(self):
         return self.client.get(
-            '/logout',
+            url_for('users.logout'),
             follow_redirects=True
         )
 
