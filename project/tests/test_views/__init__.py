@@ -38,5 +38,14 @@ class TestViewsMixin(BaseTestMixin):
             follow_redirects=True
         )
 
-    def force_login(self, user):
-        """sets the flask.current_user to provided user"""
+    def get_quiz_home(self):
+        return self.client.get(
+            url_for('users.home'),
+            follow_redirects=True
+        )
+
+    def get_quiz(self):
+        return self.client.get(
+            url_for('quiz.home'),
+            follow_redirects=True
+        )
