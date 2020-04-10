@@ -50,11 +50,9 @@ class LoginUserForm(ModelForm):
             return False
         user = User.get_by_username(self.data['username'])
         if not user:
-            self.username.errors.append('Username or Password does not match.')
-            self.password.errors.append('Username or Password does not match')
+            self.errors['errors'] = ['User not found.']
             return False
         elif not user.check_password(password=self.data['password']):
-            self.username.errors.append('Username or Password does not match.')
-            self.password.errors.append('Username or Password does not match')
+            self.password.errors.append('Password does not match')
             return False
         return True

@@ -4,13 +4,14 @@
 
 <div>
   <h2>Movie Quiz</h2>
-    <a href="{{ url_for('quiz.home') }}">
-      <button>
-        Take a Movie Quiz
-      </button>
+    <p>
+      The movie questions are based on TOP 250 MOVIES ON THE IMDB.
+    </p>
+    <a href="{{ url_for('quiz.home') }}" class="btn btn-secondary btn-lg">
+      Take a Movie Quiz
     </a>
 
-    <table>
+    <table style="margin-top: 1em;" class="table">
       <thead>
         <tr>
           <th>Name</th>
@@ -26,22 +27,26 @@
         {% endfor %}
       </tbody>
     </table>
-    {% if prev_url %}
-      <a href="{{ prev_url }}"> Previous </a>
-    {% else %}
-      <span> Previous </span>
-    {% endif %}
-    {% if next_url %}
-      <a href="{{ next_url }}"> Next </a>
-    {% else %}
-      <span> Next </span>
-    {% endif %}
-
-    <ul>
-      <li>
-        <a href="{{ url_for('users.logout') }}">Logout</a>
-      </li>
-    </ul>
+    <nav>
+      <ul class="pagination">
+        {% if prev_url %}
+          <li class="page-item"><a class="page-link" href="{{ prev_url }}">Previous</a></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" aria-disabled="true">Previous</a></li>
+        {% endif %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            {{page}}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+        {% if next_url %}
+          <li class="page-item"><a class="page-link" href="{{ next_url }}">Next</a></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" aria-disabled="true">Next</a></li>
+        {% endif %}
+      </ul>
+    </nav>
 </div>
 
 {% endblock %}

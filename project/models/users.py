@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
 
     @classmethod
     def get_by_username(cls, username):
-        return User.query.filter_by(username=username).first()
+        return User.query.filter(User.password.isnot(None)).filter_by(username=username).first()
 
     def check_password(self, password):
         if self.password:

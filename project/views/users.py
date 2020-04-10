@@ -27,6 +27,7 @@ def home():
         scores=paginated_scores.items,
         prev_url=prev_url,
         next_url=next_url,
+        page=page,
     )
     return render_template('pages/home.html', **context)
 
@@ -38,7 +39,7 @@ def register():
     if request.method == 'POST' and form.validate():
         user = form.save(form.data)
         flash(f'User {user.username} Registered successfully!')
-        return redirect('/')
+        return redirect(url_for('users.login'))
     return render_template('forms/register.html', form=form)
 
 
@@ -73,7 +74,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect('/')
+    return redirect(url_for('users.login'))
 
 
 @users.errorhandler(500)

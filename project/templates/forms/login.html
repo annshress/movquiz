@@ -1,25 +1,25 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <h3>Login <a href="{{ url_for('users.home') }}" title="Back to homepage">Go Back</a></h3>
+    <h3>Login </h3>
     <form method="post">
         {{ form.csrf_token }}
+        {% if form.errors.get('errors') %}<span class="danger">{{ ','.join(form.errors['errors']) }}</span>{% endif %}
         <p>
-            {{ form.username.label }} {{ form.username }}<br>
-            {% if form.username.errors %}<span class="danger">{{ form.username.errors }}</span>{% endif %}
+            {{ form.username.label.text.title() }} {{ form.username }}<br>
+            {% if form.username.errors %}<span class="danger">{{ ','.join(form.username.errors) }}</span>{% endif %}
         </p>
         <p>
-            {{ form.password.label }} {{ form.password }}<br>
-            {% if form.password.errors %}<span class="danger">{{ form.password.errors }}</span>{% endif %}
+            {{ form.password.label.text.title() }} {{ form.password }}<br>
+            {% if form.password.errors %}<span class="danger">{{ ','.join(form.password.errors) }}</span>{% endif %}
         </p>
         <input type="submit" value="Login"/>
     </form>
+    <p style="padding-top: 1em;">
+        If you do not have an account yet, please <a href="{{ url_for('users.register') }}">Register</a>
+    </p>
     <p>
-        <a href="{{ url_for('users.register') }}">Register</a>
-        <p>
-            Already have a code?
-            <a href="{{ url_for('users.activate') }}">Activate</a>
-        </p>
+        Already have a code? <a href="{{ url_for('users.activate') }}">Activate</a>
     </p>
 
 {% endblock %}

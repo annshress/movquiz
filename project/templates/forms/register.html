@@ -1,14 +1,14 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Register{% endblock %}
 {% block content %}
-    <h3>Register <a href="{{ url_for('users.home') }}" title="Back to homepage">Go Back</a></h3>
+    <h3>Register </h3>
     <form method="post">
         {{ form.csrf_token }}
         <p>
-            {{ form.username.label }} {{ form.username }}<br>
-            {% if form.username.errors %}<span class="danger">{{ form.username.errors }}</span>{% endif %}
+            {{ form.username.label.text.title() }} {{ form.username }}<br>
+            {% if form.username.errors %}<span class="danger">{{ ','.join(form.username.errors) }}</span>{% endif %}
         </p>
         <input type="submit" value="Register"/>
-        <p><a href="{{ url_for('users.login') }}">Login</a></p>
+        <p style="padding-top: 1em;">Already have an account? <a href="{{ url_for('users.login') }}">Login</a></p>
     </form>
 {% endblock %}
