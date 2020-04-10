@@ -19,6 +19,8 @@ class Question(db.Model):
 
     @classmethod
     def check_answers(cls, key_name, answers, current_user):
+        # making sure, user does not send more than 10 answers
+        assert len(answers) == 10
         score = 0
         # answered questions
         questions = []

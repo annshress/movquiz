@@ -15,9 +15,7 @@ class BaseTestMixin:
 
         context = app.app_context()
         context.push()
-        print('dropping')
         db.drop_all()
-        print('creating')
         db.create_all()
         self.assertEqual(app.debug, False)
 
@@ -42,6 +40,7 @@ class BaseTestMixin:
         for question in questions:
             db.session.add(question)
         db.session.commit()
+        return questions
 
     @staticmethod
     def add_score(user):
