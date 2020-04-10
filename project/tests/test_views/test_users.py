@@ -24,7 +24,7 @@ class TestUserViews(TestViewsMixin, unittest.TestCase):
         username, password = 'admin', 'admin'
         response = self.login(username, password)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Username or Password does not match', response.data)
+        self.assertIn(b'User not found', response.data)
 
     def test_valid_user_registration(self):
         username = 'user'
@@ -35,7 +35,7 @@ class TestUserViews(TestViewsMixin, unittest.TestCase):
         # try logging in, it should fail
         response = self.login(username, 'random pass')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Username or Password does not match', response.data)
+        self.assertIn(b'User not found', response.data)
 
         return username
 

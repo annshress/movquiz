@@ -52,8 +52,7 @@ def activate():
         if not user:
             flash('Could not find the code.')
             return redirect('/activate')
-        else:
-            flash(f'User {user.username} created successfully! Please login!')
+        flash(f'User {user.username} created successfully! Please login!')
         return redirect(url_for('users.login'))
     return render_template('forms/activate.html', form=form)
 
