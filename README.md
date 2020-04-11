@@ -9,7 +9,7 @@ Requires:
 4. Run `pip install -r requirements.txt`
 5. Run `flask db upgrade` which will setup up a database in *instance path* and run available migrations
 6. Run flask app
-    1. `python app.py` *This might take about 10 seconds on the first run*
+    1. `python app.py`
     2. In your browser, navigate to **localhost:5000**
 
 ### In the browser
