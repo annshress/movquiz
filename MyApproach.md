@@ -31,4 +31,4 @@ _Note_:
 ### Improvements
 
 - Passwords could be asked to make stronger
-- Quiz user input could be validated according to possible answer choices
+- UI could be improved
