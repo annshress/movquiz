@@ -20,3 +20,5 @@ Requires:
 5. Paste the copied code, and choose a new password
 6. Login with your username and the new password
 
+### For test
+- Activate the virtualenv. Run `nose2` in the project directory
