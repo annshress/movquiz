@@ -32,12 +32,12 @@ def movie_details():
     url_builder = 'https://www.imdb.com/search/title/?groups=top_250&sort=user_rating,desc&start={start}&ref_=adv_nxt'
 
     def api_fetcher(url):
-        print(f"Fetching from {url}")
+        print(f" ***Fetching from {url}")
         response = requests.get(url)
         soup = BeautifulSoup(response.text, features="html.parser")
         movies.extend(get_details(soup))
 
-    print(f"Fetching movies details from 250 top rated movies.")
+    print(f" ***Fetching movies details from 250 top rated movies.")
     for start in range(1, 250, 50):
         url = url_builder.format(start=start)
         t = threading.Thread(target=api_fetcher, args=(url, ))
@@ -96,9 +96,10 @@ def actor_question(movie, movie2):
 
 def populate_questions(config_file):
     if os.path.exists('scrape_complete.lock'):
-        raise NotImplementedError('Database has been populated. '
+        print(' ***Database has been populated. '
                                   'Scraping more questions is not supported yet!')
-    print("This is a one time operation!")
+        return
+    print(" ***This is a one time operation!")
     app = create_app(config_file)
     app.app_context().push()
 
@@ -106,7 +107,7 @@ def populate_questions(config_file):
     # shuffle the movies to create wrong choices
     shuffled = random.sample(movies, len(movies))
 
-    print("Populating Questions into database", end='\n-----------------\n')
+    print(" ***Populating Questions into database", end='\n-----------------\n')
 
     for movie in movies:
         release_date_question(movie)
@@ -118,14 +119,14 @@ def populate_questions(config_file):
     db.session.commit()
     with open('scrape_complete.lock', 'w'):
         pass
-    print("Questions loaded into the database", end='\n-----------------\n')
+    print(" ***Questions loaded into the database", end='\n-----------------\n')
 
 
 if __name__ == '__main__':
     filename = 'flask.cfg'
-    print("Creating questions based on top 250 movies in IMDB.")
-    print("##################################################")
-    print(f"Configuring flask app and db according to {filename}", end='\n-----------------\n')
+    print(" ***Creating questions based on top 250 movies in IMDB.")
+    print(" ***##################################################")
+    print(f" ***Configuring flask app and db according to {filename}", end='\n-----------------\n')
 
     try:
         populate_questions(filename)
