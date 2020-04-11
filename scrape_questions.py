@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import os
 import random
 import requests
+import threading
+import time
 
 from project.models.quiz import Question
 from project import db, create_app
@@ -26,15 +28,25 @@ def movie_details():
     create an object of movie dicts from the obtained soup
     """
     movies = []
+    threads = []
     url_builder = 'https://www.imdb.com/search/title/?groups=top_250&sort=user_rating,desc&start={start}&ref_=adv_nxt'
+
+    def api_fetcher(url):
+        print(f"Fetching from {url}")
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, features="html.parser")
+        movies.extend(get_details(soup))
 
     print(f"Fetching movies details from 250 top rated movies.")
     for start in range(1, 250, 50):
         url = url_builder.format(start=start)
-        print(".")
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, features="html.parser")
-        movies.extend(get_details(soup))
+        t = threading.Thread(target=api_fetcher, args=(url, ))
+        t.start()
+        threads.append(t)
+
+    for t in threads:
+        t.join()
+
     print()
     return movies
 
