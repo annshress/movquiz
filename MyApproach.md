@@ -27,3 +27,8 @@ movies
 _Note_:
 
 *complete - in this context, the top 250 IMDB movies
+
+### Improvements
+
+- Passwords could be asked to make stronger
+- Quiz user input could be validated according to possible answer choices
