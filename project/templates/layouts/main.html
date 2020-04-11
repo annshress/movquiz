@@ -31,17 +31,19 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-                    <!--<li class="nav-item active">-->
-                        <!--<a class="nav-link" href="">Home </a>-->
-                    <!--</li>-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home </a>
+                    </li>
                 </ul>
-                <div>
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-outline-danger" href="{{ url_for('users.logout') }}">Logout </a>
-                        </li>
-                    </ul>
-                </div>
+                {% if current_user.is_active %}
+                    <div>
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-outline-danger" href="{{ url_for('users.logout') }}">Logout </a>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
          </nav>
         <main role="main" class="container">
