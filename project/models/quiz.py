@@ -9,6 +9,7 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.String(256), nullable=False)
     answer = db.Column(db.String(256), nullable=False)
+    choices = db.Column(db.String(256), nullable=False)
 
     def check_answer(self, answer):
         return answer.lower() == self.answer.lower()
@@ -41,6 +42,7 @@ class Question(db.Model):
     def __init__(self, **kwargs):
         self.question = kwargs['question']
         self.answer = kwargs['answer']
+        self.choices = kwargs['choices']
 
 
 class Score(db.Model):

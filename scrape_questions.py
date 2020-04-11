@@ -38,10 +38,11 @@ def movie_details():
         movies.extend(get_details(soup))
 
     print(f" ***Fetching movies details from 250 top rated movies.")
-    for start in range(1, 250, 50):
+    for start in range(1, 100, 50):
         url = url_builder.format(start=start)
         t = threading.Thread(target=api_fetcher, args=(url, ))
         t.start()
+        # api_fetcher(url)
         threads.append(t)
 
     for t in threads:
@@ -52,11 +53,23 @@ def movie_details():
 
 # -------------QUESTION BUILDERS ---------- #
 
+def random_sampler(value):
+    choice_range = random.sample([*[value+i for i in range(-10, 0)],
+                    *[value+i for i in range(1, 3)]], 3) + [value]
+    random.shuffle(choice_range)
+    return ','.join([str(each) for each in choice_range])
+
 
 def release_date_question(movie):
+    try:
+        release_date = int(movie['release'])
+    except ValueError:
+        return
+    choices_ = random_sampler(release_date)
     question = Question(
         question=f'When was {movie["title"]} released?',
-        answer=movie['release']
+        answer=release_date,
+        choices=choices_
     )
     db.session.add(question)
 
@@ -66,28 +79,31 @@ def director_question(movie, movie2):
     question = Question(
         question=f'Did {director} direct the movie \"{movie["title"]} ({movie["release"]})\" ?',
         answer='yes' if movie['director'] == director else 'no',
-        type='director'
+        choices='yes,no'
     )
     db.session.add(question)
 
 
 def rating_question(movie):
+    rating = int(float(movie['rating']) * 10)
+    choices_ = random_sampler(rating)
     question = Question(
-        question=f'Guess the rating of movie \"{movie["title"]} ({movie["release"]})\" from 1 to 100.',
-        answer=int(float(movie["rating"])*10),
-        type="rating"
+        question=f'Guess the rating of movie \"{movie["title"]} ({movie["release"]})\".',
+        answer=str(rating),
+        choices=choices_
     )
     db.session.add(question)
 
 
 def actor_question(movie, movie2):
     wrong = movie2['actors'][0]
-    actors = movie['actors'] + [wrong]
+    actors = movie['actors'][:3] + [wrong]
     random.shuffle(actors)
     question = Question(
-        question=f'Which of the following actors [{", ".join(actors)}] did not'
+        question=f'Which of the following actors did not'
                  f' star in the movie {movie["title"]}({movie["release"]}) ?',
-        answer=wrong
+        answer=wrong,
+        choices=",".join(actors)
     )
     db.session.add(question)
 

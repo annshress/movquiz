@@ -15,10 +15,12 @@
                 {% set value = form.get(key_name+question.id|string, "") %}
                 <p>
                     {{ question.question }}<br>
-                    <input name="{{ key_name }}{{ question.id }}"
-                           id="{{ key_name }}{{ question.id }}"
-                           value="{{ value }}"
-                           placeholder="Answer" />
+                    <select name="{{ key_name }}{{ question.id }}"  id="{{ key_name }}{{ question.id }}"
+                            class="form-control">
+                        {% for choice in question.choices.split(',') %}
+                            <option value="{{ choice }}">{{ choice.title() }}</option>
+                        {% endfor %}
+                    </select>
                     {% if show_answer %}
                         {% if question.answer == value %}
                             <span class="success"> Correct
@@ -30,9 +32,9 @@
                 </p>
             {% endfor %}
             {% if show_answer %}
-                <button type="submit" disabled>Submit</button>
+                <button class="btn btn-primary" type="submit" disabled>Submit</button>
             {% else %}
-                <button type="submit">Submit</button>
+                <button class="btn btn-primary" type="submit">Submit</button>
             {% endif %}
         </form>
     </p>
