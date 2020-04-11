@@ -8,9 +8,8 @@ Requires:
 3. Setup a virtualenv of your choice, or don't if you like to live dangerously
 4. Run `pip install -r requirements.txt`
 5. Run `flask db upgrade` which will setup up a database in *instance path* and run available migrations
-6. Setup questions for quiz by running `python scrape_questions.py`
-7. Run flask app
-    1. `python app.py`
+6. Run flask app
+    1. `python app.py` *This might take about 10 seconds on the first run*
     2. In your browser, navigate to **localhost:5000**
 
 ### In the browser
