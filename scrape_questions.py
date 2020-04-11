@@ -38,7 +38,7 @@ def movie_details():
         movies.extend(get_details(soup))
 
     print(f" ***Fetching movies details from 250 top rated movies.")
-    for start in range(1, 100, 50):
+    for start in range(1, 250, 50):
         url = url_builder.format(start=start)
         t = threading.Thread(target=api_fetcher, args=(url, ))
         t.start()
