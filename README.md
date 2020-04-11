@@ -20,11 +20,3 @@ Requires:
 5. Paste the copied code, and choose a new password
 6. Login with your username and the new password
 
-Requirement:
-1. A document should present your approach and the reasoning behind the approach. It
-should also explain any current shortcomings of the current approach and how can it be
-improved in the future
-2. Unit Tests should be included.
-3. Code documentation should be followed according to python guidelines.
-4. Setup Documentation for running the application should be included in README
-5. Should use one of “requirements.txt” or “poetry” for dependency management.
