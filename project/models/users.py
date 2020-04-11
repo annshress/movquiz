@@ -31,7 +31,7 @@ class User(db.Model, UserMixin):
         return 'code' + username
 
     def generate_key(self):
-        new_code = {self.generate_code(self.username): self.username}
+        new_code = {self.username: self.generate_code(self.username)}
         data = get_activation_codes()
         data.update(new_code)
 
@@ -49,7 +49,8 @@ class User(db.Model, UserMixin):
     @classmethod
     def activate(cls, code, password):
         data = get_activation_codes()
-        username = data.get(code, None)
+        temp = {val: key for key, val in data.items()}
+        username = temp.get(code, None)
         if not username:
             return
 
@@ -59,7 +60,7 @@ class User(db.Model, UserMixin):
         db.session.commit()
 
         # remove the activated code
-        data.pop(code)
+        data.pop(username)
         with open(ACTIVATION_CODE_FILENAME, 'w') as f:
             json.dump(data, f)
         # end remove

@@ -1,4 +1,4 @@
-from wtforms import StringField, validators
+from wtforms import StringField, validators, PasswordField
 from wtforms_alchemy import ModelForm, Form
 
 from project.models.users import User
@@ -15,18 +15,17 @@ class RegisterUserForm(ModelForm):
 
 class ActivateUserForm(Form):
     code = StringField('Code', [validators.Length(min=1, max=80)])
-    password = StringField(
+    password = PasswordField(
         'Password',
         validators=[
             validators.DataRequired(),
-            validators.Length(max=255),
+            validators.Length(min=7, max=30),
         ]
     )
-    re_password = StringField(
+    re_password = PasswordField(
         'Password (Again)',
         validators=[
             validators.DataRequired(),
-            validators.Length(max=255),
             validators.EqualTo('password', message='Passwords must match')
         ]
     )
@@ -39,6 +38,14 @@ class ActivateUserForm(Form):
 
 
 class LoginUserForm(ModelForm):
+    password = PasswordField(
+        'Password',
+        validators=[
+            validators.DataRequired(),
+            validators.Length(max=255),
+        ]
+    )
+
     class Meta:
         model = User
         only = ['username', 'password']
