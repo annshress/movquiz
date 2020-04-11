@@ -28,12 +28,14 @@ def movie_details():
     movies = []
     url_builder = 'https://www.imdb.com/search/title/?groups=top_250&sort=user_rating,desc&start={start}&ref_=adv_nxt'
 
+    print(f"Fetching movies details from 250 top rated movies.")
     for start in range(1, 250, 50):
         url = url_builder.format(start=start)
-        print(f"Fetching movies details from {url}", end='\n-----------------\n')
+        print(".")
         response = requests.get(url)
         soup = BeautifulSoup(response.text, features="html.parser")
         movies.extend(get_details(soup))
+    print()
     return movies
 
 # -------------QUESTION BUILDERS ---------- #
@@ -80,9 +82,14 @@ def actor_question(movie, movie2):
 # ---------END QUESTION BUILDERS------------- #
 
 
-def populate_questions():
+def populate_questions(config_file):
     if os.path.exists('scrape_complete.lock'):
-        raise NotImplementedError('Database has been populated. Scraping further is not supported!')
+        raise NotImplementedError('Database has been populated. '
+                                  'Scraping more questions is not supported yet!')
+    print("This is a one time operation!")
+    app = create_app(config_file)
+    app.app_context().push()
+
     movies = movie_details()
     # shuffle the movies to create wrong choices
     shuffled = random.sample(movies, len(movies))
@@ -107,10 +114,8 @@ if __name__ == '__main__':
     print("Creating questions based on top 250 movies in IMDB.")
     print("##################################################")
     print(f"Configuring flask app and db according to {filename}", end='\n-----------------\n')
-    app = create_app(filename)
-    app.app_context().push()
 
     try:
-        populate_questions()
+        populate_questions(filename)
     except NotImplementedError as e:
         print(e)
