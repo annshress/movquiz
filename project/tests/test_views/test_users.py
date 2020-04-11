@@ -21,7 +21,7 @@ class TestUserViews(TestViewsMixin, unittest.TestCase):
 
     def test_invalid_login(self):
         # user does not exist yet
-        username, password = 'admin', 'admin'
+        username, password = 'admin', 'adminpass'
         response = self.login(username, password)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'User not found', response.data)
@@ -58,7 +58,7 @@ class TestUserViews(TestViewsMixin, unittest.TestCase):
         self.assertIn(b'Registered successfully', response.data)
 
         # use the saved code to activate
-        password = 'pass'
+        password = 'passwoorrd'
         response = self.activate(code=User.generate_code(username), password=password, re_password=password)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'created successfully', response.data)
@@ -70,7 +70,7 @@ class TestUserViews(TestViewsMixin, unittest.TestCase):
         self.assertIn(b'Registered successfully', response.data)
 
         # use the saved code to activate
-        password = 'pass'
+        password = 'passwowow'
         response = self.activate(code=User.generate_code(username), password=password, re_password=password)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'created successfully', response.data)
@@ -82,6 +82,6 @@ class TestUserViews(TestViewsMixin, unittest.TestCase):
 
     def test_invalid_code_activation(self):
         # resubmit
-        response = self.activate(code=User.generate_code('random'), password='random', re_password='random')
+        response = self.activate(code=User.generate_code('random'), password='randomness', re_password='randomness')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Could not find the code', response.data)

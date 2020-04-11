@@ -12,3 +12,4 @@ class QuestionFactory(factory.alchemy.SQLAlchemyModelFactory):
     id = factory.Sequence(lambda n: n)
     question = factory.Sequence(lambda n: u'Question %d' % n)
     answer = factory.Sequence(lambda n: u'Answer %d' % n)
+    choices = factory.Sequence(lambda n: u'Choices%d' % n)
