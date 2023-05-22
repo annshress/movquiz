@@ -9,7 +9,7 @@ Flask-Bcrypt==0.7.1
 
 # sraper
 beautifulsoup4==4.9.0
-requests==2.23.0
+requests==2.31.0
 
 # test
 factory-boy==2.12.0
